@@ -1,0 +1,26 @@
+{
+  "name": "@elexis.js/idb",
+  "description": "Simplify IndexedDB.",
+  "version": "0.0.1",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "author": {
+    "name": "defaultkavy",
+    "email": "defaultkavy@gmail.com",
+    "url": "https://github.com/defaultkavy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elexis-js/idb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/elexis-js/idb/issues"
+  },
+  "homepage": "https://github.com/elexis-js/idb",
+  "keywords": ["idb", "database", "front-end", "lib", "fluent", "framework"],
+  "license": "ISC",
+  "peerDependencies": {
+    "elexis": "^1.0.0"
+  }
+}
