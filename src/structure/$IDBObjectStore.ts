@@ -16,8 +16,8 @@ export class $IDBObjectStore<Options extends $IDBObjectStoreOptions> extends $ID
             const store = this.instance('readwrite');
             const array = $.orArrayResolve(value);
             array.forEach(v => {
-                if (v instanceof Array) store.add(v[1], v[0]);
-                else store.add(v)
+                if (v instanceof Array) store.put(v[1], v[0]);
+                else store.put(v)
             })
             resolve();
         })
