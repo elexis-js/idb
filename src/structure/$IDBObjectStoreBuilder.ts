@@ -1,4 +1,5 @@
 import type { $IDBIndexOptions } from "./$IDBIndex";
+import { $IDBIndexBuilder } from "./$IDBIndexBuilder";
 import type { $IDBObjectStoreOptions, $IDBObjectUpgradeOptions } from "./$IDBObjectStore";
 
 export class $IDBObjectStoreBuilder<Options extends $IDBObjectStoreOptions> {
@@ -14,8 +15,8 @@ export class $IDBObjectStoreBuilder<Options extends $IDBObjectStoreOptions> {
         } as unknown as Options
     }
 
-    keyPath<K extends null | string | string[]>(key: K) {
-        this.options.keyPath = key as any;
+    keyPath<K extends string[]>(...key: K) {
+        this.options.keyPath = key.length === 1 ? key[0] as string : key;
         return this as unknown as $IDBObjectStoreBuilder<Options & {keyPath: K}>
     }
 
@@ -29,10 +30,10 @@ export class $IDBObjectStoreBuilder<Options extends $IDBObjectStoreOptions> {
         return this;
     }
 
-    type<T extends Options['keyPath'] extends string ? {[key in Options['keyPath']]: IDBValidKey} : any>() { return this as unknown as $IDBObjectStoreBuilder<Options & {type: T}>; }
+    type<T extends Options['keyPath'] extends string[] ? {[key in Options['keyPath'][number]]: IDBValidKey} : any>() { return this as unknown as $IDBObjectStoreBuilder<Options & {type: T}>; }
 
-    index<N extends string, K extends string | string[]>(name: N, keyPath: K, options?: Partial<Omit<$IDBIndexOptions, 'keyPath'>>) {
-        this.options.indexes[name] = { keyPath, multiEntry: false, unique: false, ...options };
-        return this as unknown as $IDBObjectStoreBuilder<Options & {indexes: { [key in N]: { keyPath: K } & typeof options }}>;
+    index<N extends string, T extends (index: $IDBIndexBuilder<Options, $IDBIndexOptions>) => $IDBIndexBuilder<Options, $IDBIndexOptions>>(name: N, index: T) {
+        this.options.indexes[name] = index(new $IDBIndexBuilder(name)).options;
+        return this as unknown as $IDBObjectStoreBuilder<Options & {indexes: Record<N, ReturnType<T>['options']>}>;
     }
 }

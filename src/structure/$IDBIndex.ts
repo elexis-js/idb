@@ -1,13 +1,19 @@
 import type { $IDBObjectStore, $IDBObjectStoreOptions } from "./$IDBObjectStore";
 import { $IDBObjectStoreBase } from "./$IDBObjectStoreBase";
 
-export class $IDBIndex<StoreOptions extends $IDBObjectStoreOptions, Options extends $IDBIndexOptions> extends $IDBObjectStoreBase<StoreOptions> {
+export class $IDBIndex<StoreOptions extends $IDBObjectStoreOptions, Options extends $IDBIndexOptions> extends $IDBObjectStoreBase<StoreOptions, Options['keyPath']> {
     name: string;
     store: $IDBObjectStore<StoreOptions>;
-    constructor(store: $IDBObjectStore<StoreOptions>, name: string) {
+    unique: boolean | undefined;
+    keyPath: string | string[];
+    multiEntry: boolean | undefined;
+    constructor(store: $IDBObjectStore<StoreOptions>, name: string, options: Options) {
         super();
         this.name = name;
         this.store = store;
+        this.unique = options.unique;
+        this.keyPath = options.keyPath;
+        this.multiEntry = options.multiEntry
     }
 
     instance(permission: IDBTransactionMode) {

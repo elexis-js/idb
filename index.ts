@@ -7,6 +7,17 @@ declare module 'elexis' {
     }
 }
 
+declare global {
+
+    type TypeofObjectProperty<O, T> = T extends [infer A, ...infer Rest]
+        ? A extends keyof O 
+            ? [O[A], ...TypeofObjectProperty<O, Rest>] 
+            : never
+        : T extends string
+            ? [T]
+            : T;
+}
+
 Object.assign($, {
     idb(name: string, version: number) { return new $IDBBuilder(name, version) }
 })

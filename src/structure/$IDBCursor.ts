@@ -1,14 +1,16 @@
-export class $IDBCursor {
+import type { $IDBObjectStoreOptions } from "./$IDBObjectStore";
+
+export class $IDBCursor<Options extends $IDBObjectStoreOptions, KeyPath extends string | string[]> {
     cursor: IDBCursorWithValue
     constructor(cursor: IDBCursorWithValue) {
         this.cursor = cursor;
     }
 
-    get value() { return this.cursor.value }
-    get key() { return this.cursor.key }
-    get primaryKey() { return this.cursor.primaryKey }
+    get value(): Options['type'] { return this.cursor.value }
+    get key(): TypeofObjectProperty<Options['type'], KeyPath> { return this.cursor.key as any }
+    get primaryKey(): TypeofObjectProperty<Options['type'], Options['keyPath']> { return this.cursor.primaryKey as any }
 
-    async updateValue<T>(value: T) {
+    async update<T extends Options['type']>(value: T) {
         return new Promise<T>((resolve, reject) => {
             const req = this.cursor.update(value);
             req.onsuccess = e => resolve(value);
@@ -16,7 +18,7 @@ export class $IDBCursor {
         })
     }
 
-    async deleteCursor() {
+    async delete() {
         return new Promise<void>((resolve, reject) => {
             const req = this.cursor.delete();
             req.onsuccess = e => resolve();
@@ -26,4 +28,5 @@ export class $IDBCursor {
 
     continue(key?: IDBValidKey) { this.cursor.continue(key) }
     advance(count: number) { this.cursor.advance(count) }
+    abort() { this.cursor.request.transaction?.abort() }
 }

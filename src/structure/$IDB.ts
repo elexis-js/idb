@@ -3,8 +3,10 @@ import { $IDBObjectStore, type $IDBObjectStoreOptions } from "./$IDBObjectStore"
 
 export class $IDB<Options extends $IDBOpenOptions> {
     idb: IDBDatabase;
-    constructor(idb: IDBDatabase) {
+    options: Options;
+    constructor(idb: IDBDatabase, options: Options) {
         this.idb = idb;
+        this.options = options;
     }
 
     static async open<O extends $IDBOpenOptions>(dbName: string, options: O): Promise<$IDB<O>> {
@@ -38,7 +40,7 @@ export class $IDB<Options extends $IDBOpenOptions> {
             init_open.onsuccess = async e => {
                 //@ts-expect-error
                 const idb = e.target.result as IDBDatabase;
-                if (options.version === idb.version) return resolve(new $IDB(idb));
+                if (options.version === idb.version) return resolve(new $IDB(idb, options));
                 const storeOptionsMap = new Map(Object.entries(options.stores));
                 const transaction = idb.objectStoreNames.length ? idb.transaction(Array.from(idb.objectStoreNames), 'readonly') : null;
                 if (transaction) {
@@ -51,7 +53,7 @@ export class $IDB<Options extends $IDBOpenOptions> {
                     if (!store) { createStoreMap.set(s_name, s_options); checkIndex(true); continue }
                     const NO_CHANGE = s_options === undefined && (store.keyPath === undefined && store.autoIncrement === undefined);
                     const OBJECT_UPGRADE = !s_options?.upgrade?.filter(config => options.version >= config.beforeVersion && idb.version < config.beforeVersion).length;
-                    const CONFIG_MATCHED = store.keyPath === s_options?.keyPath as any && store.autoIncrement === !!s_options?.autoIncrement;
+                    const CONFIG_MATCHED = store.keyPath.toString() === s_options?.keyPath.toString() as any && store.autoIncrement === !!s_options?.autoIncrement;
                     const UPGRADE_NEEDED = !NO_CHANGE && OBJECT_UPGRADE && !CONFIG_MATCHED;
                     if (UPGRADE_NEEDED) upgradeStoreMap.set(s_name, s_options);
                     checkIndex();
@@ -61,7 +63,7 @@ export class $IDB<Options extends $IDBOpenOptions> {
                             const NAME_EXIST = store.indexNames.contains(i_name);
                             if (NAME_EXIST) {
                                 const index = store.index(i_name);
-                                const CONFIG_MATCHED = index.multiEntry === !!i_options.multiEntry && index.keyPath === i_options.keyPath && index.unique === !!i_options.unique
+                                const CONFIG_MATCHED = index.multiEntry === !!i_options.multiEntry && index.keyPath.toString() === i_options.keyPath.toString() && index.unique === !!i_options.unique
                                 if (CONFIG_MATCHED) continue;
                                 addCreateIndex();
                             } else addCreateIndex();
@@ -74,7 +76,7 @@ export class $IDB<Options extends $IDBOpenOptions> {
                         }
                     }
                 }
-                const $idb = new $IDB(idb);
+                const $idb = new $IDB(idb, options);
                 // resolve if no store need upgrade
                 if (idb.version === options.version && !upgradeStoreMap.size && !createStoreMap.size && !deleteStoreNames.length && !createIndexMap.size) return resolve($idb as $IDB<O>);
                 // cache objects of reset store
@@ -105,7 +107,7 @@ export class $IDB<Options extends $IDBOpenOptions> {
             function upgradeStore(e: Event) {
                 //@ts-expect-error
                 const idb = e.target.result as IDBDatabase;
-                const $idb = new $IDB(idb);
+                const $idb = new $IDB(idb, options);
                 //@ts-expect-error
                 const transaction = e.target.transaction as IDBTransaction;
                 // create stores
@@ -144,7 +146,7 @@ export class $IDB<Options extends $IDBOpenOptions> {
         })
     }
 
-    getStore<N extends keyof Options['stores'], O extends Options['stores'][N]>(name: N): $IDBObjectStore<O> { return new $IDBObjectStore(this, name as string) }
+    getStore<N extends keyof Options['stores'], O extends Options['stores'][N]>(name: N): $IDBObjectStore<O> { return new $IDBObjectStore(this, name as string, this.options.stores[name] as any) }
 }
 
 export interface $IDBOpenOptions {
