@@ -146,7 +146,7 @@ export class $IDB<Options extends $IDBOpenOptions> {
         })
     }
 
-    getStore<N extends keyof Options['stores'], O extends Options['stores'][N]>(name: N): $IDBObjectStore<O> { return new $IDBObjectStore(this, name as string, this.options.stores[name] as any) }
+    getStore<N extends keyof Options['stores'] & string, O extends Options['stores'][N]>(name: N): $IDBObjectStore<O> { return new $IDBObjectStore(this, name as string, this.options.stores[name] as any) }
 }
 
 export interface $IDBOpenOptions {

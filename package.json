@@ -1,7 +1,7 @@
 {
   "name": "@elexis.js/idb",
   "description": "Simplify IndexedDB.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "module": "index.ts",
   "type": "module",
   "author": {
