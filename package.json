@@ -1,7 +1,7 @@
 {
   "name": "@elexis.js/idb",
-  "description": "Simplify IndexedDB.",
-  "version": "0.1.1",
+  "description": "Simplify API of IndexedDB.",
+  "version": "1.0.0",
   "module": "index.ts",
   "type": "module",
   "author": {
@@ -20,6 +20,6 @@
   "keywords": ["idb", "database", "front-end", "lib", "fluent", "framework"],
   "license": "ISC",
   "peerDependencies": {
-    "elexis": "^1.0.0"
+    "elexis": "^2.0.0"
   }
 }

@@ -1,7 +1,8 @@
-import 'elexis';
+import 'elexis/core';
+import 'elexis/method/trycatch';
 import { $IDBBuilder } from './src/structure/$IDBBuilder';
 
-declare module 'elexis' {
+declare module 'elexis/core' {
     export namespace $ {
         export function idb(name: string, version: number): $IDBBuilder<{version: number, stores: {}}>
     }
