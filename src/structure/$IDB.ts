@@ -1,5 +1,5 @@
-import type { $IDBIndexOptions } from "./$IDBIndex";
-import { $IDBObjectStore, type $IDBObjectStoreOptions } from "./$IDBObjectStore";
+import type { $IDBIndexOptions } from "#structure/$IDBIndex";
+import { $IDBObjectStore, type $IDBObjectStoreOptions } from "#structure/$IDBObjectStore";
 
 export class $IDB<Options extends $IDBOpenOptions> {
     idb: IDBDatabase;

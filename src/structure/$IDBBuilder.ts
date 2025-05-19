@@ -1,6 +1,6 @@
-import { type $IDBOpenOptions, $IDB } from "./$IDB";
-import type { $IDBObjectStoreOptions } from "./$IDBObjectStore";
-import { $IDBObjectStoreBuilder } from "./$IDBObjectStoreBuilder";
+import { type $IDBOpenOptions, $IDB } from "#structure/$IDB";
+import type { $IDBObjectStoreOptions } from "#structure/$IDBObjectStore";
+import { $IDBObjectStoreBuilder } from "#structure/$IDBObjectStoreBuilder";
 
 export class $IDBBuilder<Options extends $IDBOpenOptions> {
     name: string;

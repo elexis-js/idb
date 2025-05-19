@@ -1,5 +1,5 @@
-import type { $IDBObjectStore, $IDBObjectStoreOptions } from "./$IDBObjectStore";
-import { $IDBObjectStoreBase } from "./$IDBObjectStoreBase";
+import type { $IDBObjectStore, $IDBObjectStoreOptions } from "#structure/$IDBObjectStore";
+import { $IDBObjectStoreBase } from "#structure/$IDBObjectStoreBase";
 
 export class $IDBIndex<StoreOptions extends $IDBObjectStoreOptions, Options extends $IDBIndexOptions> extends $IDBObjectStoreBase<StoreOptions, Options['keyPath']> {
     name: string;

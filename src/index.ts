@@ -1,6 +1,6 @@
 import 'elexis/core';
-import 'elexis/method/trycatch';
-import { $IDBBuilder } from './src/structure/$IDBBuilder';
+import 'elexis/register/method/trycatch';
+import { $IDBBuilder } from '#structure/$IDBBuilder';
 
 declare module 'elexis/core' {
     export namespace $ {
@@ -23,10 +23,10 @@ Object.assign($, {
     idb(name: string, version: number) { return new $IDBBuilder(name, version) }
 })
 
-export * from "./src/structure/$IDB";
-export * from "./src/structure/$IDBBuilder";
-export * from "./src/structure/$IDBCursor";
-export * from "./src/structure/$IDBIndex";
-export * from "./src/structure/$IDBObjectStore";
-export * from "./src/structure/$IDBObjectStoreBase";
-export * from "./src/structure/$IDBObjectStoreBuilder";
+export * from "#structure/$IDB";
+export * from "#structure/$IDBBuilder";
+export * from "#structure/$IDBCursor";
+export * from "#structure/$IDBIndex";
+export * from "#structure/$IDBObjectStore";
+export * from "#structure/$IDBObjectStoreBase";
+export * from "#structure/$IDBObjectStoreBuilder";

@@ -1,6 +1,6 @@
-import { $IDBCursor } from "./$IDBCursor";
-import { $IDBIndex } from "./$IDBIndex";
-import type { $IDBObjectStoreOptions } from "./$IDBObjectStore";
+import { $IDBCursor } from "#structure/$IDBCursor";
+import { $IDBIndex } from "#structure/$IDBIndex";
+import type { $IDBObjectStoreOptions } from "#structure/$IDBObjectStore";
 
 
 export abstract class $IDBObjectStoreBase<Options extends $IDBObjectStoreOptions, KeyPath extends string | string[]> {

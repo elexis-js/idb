@@ -1,4 +1,4 @@
-import type { $IDBObjectStoreOptions } from "./$IDBObjectStore";
+import type { $IDBObjectStoreOptions } from "#structure/$IDBObjectStore";
 
 export class $IDBCursor<Options extends $IDBObjectStoreOptions, KeyPath extends string | string[]> {
     cursor: IDBCursorWithValue

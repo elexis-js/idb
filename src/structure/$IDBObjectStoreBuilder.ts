@@ -1,6 +1,6 @@
-import type { $IDBIndexOptions } from "./$IDBIndex";
-import { $IDBIndexBuilder } from "./$IDBIndexBuilder";
-import type { $IDBObjectStoreOptions, $IDBObjectUpgradeOptions } from "./$IDBObjectStore";
+import type { $IDBIndexOptions } from "#structure/$IDBIndex";
+import { $IDBIndexBuilder } from "#structure/$IDBIndexBuilder";
+import type { $IDBObjectStoreOptions, $IDBObjectUpgradeOptions } from "#structure/$IDBObjectStore";
 
 export class $IDBObjectStoreBuilder<Options extends $IDBObjectStoreOptions> {
     name: string;
